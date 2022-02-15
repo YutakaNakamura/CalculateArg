@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="..\..\arg\arg.cpp">
+      <Filter>arg</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="..\..\arg\arg.h">
+      <Filter>arg</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="arg">
+      <UniqueIdentifier>{41667c1f-3a38-4f09-9a7e-e152656a14e6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
