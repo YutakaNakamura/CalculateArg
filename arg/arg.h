@@ -47,6 +47,12 @@ public:
 		return mArg;
 	}
 
+	static Arg Average(Arg &pArg1, Arg &pArg2) {
+		Arg diff = pArg2 - pArg1;
+		Arg avg = pArg1 + diff;
+		return avg;
+	}
+
 };
 
 
@@ -56,7 +62,7 @@ class ArgInteger {
 private:
 	int mArg;
 
-	int ReWrap(int pArg) {
+	int Wrap(int pArg) {
 		return (((pArg + 16384) & 0x7fff) - 16384);
 	}
 
@@ -68,10 +74,10 @@ public:
 	ArgInteger(int pArg) : mArg(pArg) {}
 
 	int operator + (ArgInteger pArgInt) {
-		return ReWrap(this->mArg + pArgInt.mArg);
+		return Wrap(this->mArg + pArgInt.mArg);
 	}
 	int operator - (ArgInteger pArgInt) {
-		return ReWrap(this->mArg - pArgInt.mArg);
+		return Wrap(this->mArg - pArgInt.mArg);
 	}
 
 	double GetRadian() {
@@ -82,40 +88,44 @@ public:
 
 //答え合わせ用。回転座標変換で正解を求めるクラス
 template<typename T>
-class ArgForTrigonometric {
+class ArgFromTrigonometric {
 private:
 	T mX;
 	T mY;
 public:
-	ArgForTrigonometric(T pRadian) {
-		mX = cos(pRadian);
-		mY = sin(pRadian);
-	}
+	ArgFromTrigonometric(const T &pRadian)
+		:mX(cos(pRadian)), mY(sin(pRadian)) 
+	{}
 
-	ArgForTrigonometric(T pX, T pY) {
-		mX = pX;
-		mY = pY;
-	}
+	ArgFromTrigonometric(const T &pX, const T &pY)
+		:mX(pX), mY(pY)
+	{}
 
-	ArgForTrigonometric& operator = (ArgForTrigonometric pArg) {
+	ArgFromTrigonometric& operator = (const ArgFromTrigonometric &pArg) {
 		mX = pArg.mX;
 		mY = pArg.mY;
 	}
 
-	ArgForTrigonometric operator + (ArgForTrigonometric pArg) {
+	ArgFromTrigonometric operator + (const ArgFromTrigonometric &pArg) {
 		T y = this->mY * pArg.mX + this->mX * pArg.mY;
 		T x = this->mX * pArg.mX - this->mY * pArg.mY;
-		return ArgForTrigonometric(x, y);
+		return ArgFromTrigonometric(x, y);
 	}
 
-	ArgForTrigonometric operator - (ArgForTrigonometric pArg) {
+	ArgFromTrigonometric operator - (const ArgFromTrigonometric &pArg) {
 		T y = this->mY * pArg.mX - this->mX * pArg.mY;
 		T x = this->mX * pArg.mX + this->mY * pArg.mY;
-		return ArgForTrigonometric(x, y);
+		return ArgFromTrigonometric(x, y);
 	}
 
 	T GetRadian() {
 		return atan2(mY, mX);
+	}
+
+	ArgFromTrigonometric static AverageRadian(const ArgFromTrigonometric &pArg1, const ArgFromTrigonometric &pArg2) {
+		T sumX = (pArg1.mX + pArg2.mX) / 2;
+		T sumY = (pArg1.mY + pArg2.mY) / 2;
+		return ArgFromTrigonometric(sumX, sumY);
 	}
 
 };
