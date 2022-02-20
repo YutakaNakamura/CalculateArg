@@ -43,13 +43,17 @@ public:
 		return Arg(this->mArg - pArg.mArg);
 	}
 
+	Arg operator / (T pNum) {
+		return Arg(this->mArg / pNum);
+	}
+
 	T GetRadian() {
 		return mArg;
 	}
 
 	static Arg Average(Arg &pArg1, Arg &pArg2) {
 		Arg diff = pArg2 - pArg1;
-		Arg avg = pArg1 + diff;
+		Arg avg = pArg1 + (diff/2);
 		return avg;
 	}
 
@@ -122,7 +126,7 @@ public:
 		return atan2(mY, mX);
 	}
 
-	ArgFromTrigonometric static AverageRadian(const ArgFromTrigonometric &pArg1, const ArgFromTrigonometric &pArg2) {
+	ArgFromTrigonometric static Average(const ArgFromTrigonometric &pArg1, const ArgFromTrigonometric &pArg2) {
 		T sumX = (pArg1.mX + pArg2.mX) / 2;
 		T sumY = (pArg1.mY + pArg2.mY) / 2;
 		return ArgFromTrigonometric(sumX, sumY);

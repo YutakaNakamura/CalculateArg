@@ -152,14 +152,14 @@ TEST(CalculateArg, Avg) {
 		for (double arg2 = init2; arg2 < end2; arg2 += step2) {
 			Arg<double> carg1(arg1);
 			Arg<double> carg2(arg2);
-			Arg<double> cavg = carg1 - carg2;
+			Arg<double> cavg = Arg<double>::Average(carg1,carg2);
 
 			ArgFromTrigonometric<double> targ1(arg1);
 			ArgFromTrigonometric<double> targ2(arg2);
-			ArgFromTrigonometric<double> tavg = targ1 - targ2;
+			ArgFromTrigonometric<double> tavg = ArgFromTrigonometric<double>::Average(targ1, targ2);
 			//É~ÉäradÇÃê∏ìxÇ≈î‰ärÇ∑ÇÈÅB
-			EXPECT_NEAR(cavg.GetRadian(), tavg.GetRadian(), 1.0e-3);
-
+			//EXPECT_NEAR(cavg.GetRadian(), tavg.GetRadian(), 1.0e-3);
+			ASSERT_NEAR(cavg.GetRadian(), tavg.GetRadian(), 1.0e-3);
 		}
 	}
 
